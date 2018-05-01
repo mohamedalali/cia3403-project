@@ -163,7 +163,7 @@
                 window.location.href = 'users.html';
                 return;
             } else {
-                var url = 'http://localhost:3000/api/users/' + id;
+                var url = 'http://spotsonclick.eu-4.evennode.com/api/users/' + id;
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
                 xhr.onload = function () {
@@ -196,7 +196,7 @@
                 alert('All fields are required. Please fill the fields and try again.');
                 return false;
             } else {
-                var url = 'http://localhost:3000/api/users';
+                var url = 'http://spotsonclick.eu-4.evennode.com/api/users';
                 
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
@@ -227,7 +227,7 @@
                         // else if (!usernameExists || !emailExists) {
                         //     document.getElementById('error').style.display = 'none';
                         } else {
-                            url = 'http://localhost:3000/api/users/' + id;
+                            url = 'http://spotsonclick.eu-4.evennode.com/api/users/' + id;
 
                             var data = {};
                             data.username = username;

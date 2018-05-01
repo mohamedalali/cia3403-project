@@ -85,7 +85,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script>
         function main() {
-            var url = 'http://localhost:3000/api/users';
+            var url = 'http://spotsonclick.eu-4.evennode.com/api/users';
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onload = function () {
@@ -117,7 +117,7 @@
         }
 
         function deleteUser(id) {
-            var url = 'http://localhost:3000/api/users/' + id;
+            var url = 'http://spotsonclick.eu-4.evennode.com/api/users/' + id;
             var xhr = new XMLHttpRequest();
             xhr.open('DELETE', url, true);
             xhr.onreadystatechange = function () {
