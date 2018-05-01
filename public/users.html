@@ -38,7 +38,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
@@ -61,17 +61,19 @@
         <p class="lead">Manage users by creating, reading, updating or deleting their details.</p>
         <div id="userDeleted" style="display: none" class="alert alert-success" role="alert">The user has been successfully deleted.</div>
         <div id="noUsers" style="display: none" class="alert alert-info" role="alert">No users were found. Make sure to create users in order to view them here!</div>
-        <table id="users" class="table table-bordered">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Display Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col" style="width: 120px">Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="users" class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Display Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col" style="width: 120px">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </main>
 
     <footer class="footer">
