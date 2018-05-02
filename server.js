@@ -98,7 +98,7 @@ router.route('/search/users')
         let key = req.query.key;
         let value = req.query.value;
 
-        if (key == null || key == '') {
+        if (key == null || key == '' || key == 'password') {
             res.status(400).json({message: 'Please provide a key to search for a user. The usable keys are: username, display_name and email.'});
         } else if (value == null || value == '') {
             res.status(400).json({message: 'Please provide a value to search for a user based on provided key.'});
