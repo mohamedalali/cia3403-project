@@ -58,6 +58,21 @@
     <main role="main" class="container">
         <a href="create-user.html" class="btn btn-success float-right"><i class="fas fa-user-plus"></i> Create User</a>
         <h1 class="display-4">Users</h1>
+        <div class="float-right">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchQuery" placeholder="Search Query">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Search
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" onclick="search('username')">Username</a>
+                        <a class="dropdown-item" href="#" onclick="search('display_name')">Display Name</a>
+                        <a class="dropdown-item" href="#" onclick="search('email')">Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <p class="lead">Manage users by creating, reading, updating or deleting their details.</p>
         <div id="userDeleted" style="display: none" class="alert alert-success" role="alert">The user has been successfully deleted.</div>
         <div id="noUsers" style="display: none" class="alert alert-info" role="alert">No users were found. Make sure to create users in order to view them here!</div>

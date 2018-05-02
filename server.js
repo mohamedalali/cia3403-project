@@ -100,8 +100,6 @@ router.route('/search/users')
 
         if (key == null || key == '' || key == 'password') {
             res.status(400).json({message: 'Please provide a key to search for a user. The usable keys are: username, display_name and email.'});
-        } else if (value == null || value == '') {
-            res.status(400).json({message: 'Please provide a value to search for a user based on provided key.'});
         } else {
             let query = {};
             query[key] = new RegExp(value, 'i');
@@ -179,8 +177,6 @@ router.route('/search/spots')
 
         if (key == null || key == '' || key == 'image_url' || key == 'location') {
             res.status(400).json({message: 'Please provide a key to search for a spot. The usable keys are: name, description and city.'});
-        } else if (value == null || value == '') {
-            res.status(400).json({message: 'Please provide a value to search for a spot based on provided key.'});
         } else {
             let query = {};
             query[key] = new RegExp(value, 'i');
