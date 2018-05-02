@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 // Database Setup
@@ -7,6 +8,8 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://api:EBN8t9xg@ds255329.mlab.com:55329/spotsonclick');
 const User = require('./app/models/user');
 const Spot = require('./app/models/spot');
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
