@@ -1,21 +1,21 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
 
 // Database Setup
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect('mongodb://api:EBN8t9xg@ds255329.mlab.com:55329/spotsonclick');
-var User = require('./app/models/user');
-var Spot = require('./app/models/spot');
+const User = require('./app/models/user');
+const Spot = require('./app/models/spot');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', express.static('public'))
 
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', function (req, res) {
     res.json({ message: 'This is a REST API endpoint for SpotsOnClick. Please use the appropriate route to use the resources.' });
@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
 
 router.route('/users')
     .post(function(req, res) {
-        var user = new User();
+        let user = new User();
         user.username = req.body.username;
         user.display_name = req.body.display_name;
         user.email = req.body.email;
@@ -93,9 +93,29 @@ router.route('/users/:id')
         });
     });
 
+router.route('/users/search')
+    .get(function(req, res) {
+        let key = req.query.key;
+        let value = req.query.value;
+
+        if (key == null || key == '') {
+            res.status(400).json({message: 'Please provide a key to search for a user. The usable keys are: username, display_name and email.'});
+        } else if (value == null || value == '') {
+            res.status(400).json({message: 'Please provide a value to search for a user based on provided key.'});
+        } else {
+            let query = {};
+            query[key] = value;
+            User.find(query, function(err, users) {
+                if (err) res.status(500).send(err);
+
+                res.status(200).json(users);
+            });
+        }
+    });
+
 router.route('/spots')
     .post(function(req, res) {
-        var spot = new Spot();
+        let spot = new Spot();
         spot.name = req.body.name;
         spot.description = req.body.description;
         spot.image_url = req.body.image_url;
