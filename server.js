@@ -109,6 +109,11 @@ router.route('/search/users')
             User.find(query, function(err, users) {
                 if (err) res.status(500).send(err);
 
+                for (let user of users)
+                    user.password = undefined;
+
+                users = JSON.parse(JSON.stringify(users));
+
                 res.status(200).json(users);
             });
         }
