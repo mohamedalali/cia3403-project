@@ -83,8 +83,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script>
-        function main() {
-            var url = 'http://spotsonclick.eu-4.evennode.com/api/users';
+        function main(url) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onload = function () {
@@ -113,6 +112,25 @@
                 }
             }
             xhr.send(null);
+        }
+        
+        function main() {
+            main('http://spotsonclick.eu-4.evennode.com/api/users');
+        }
+
+        function search(by) {
+            var searchQuery = document.getElementById('searchQuery').value;
+
+            switch (by) {
+                case 'display_name':
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/users?key=display_name&value=' + searchQuery);
+                    break;
+                case 'email':
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/users?key=email&value=' + searchQuery);
+                    break;
+                default:
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/users?key=username&value=' + searchQuery);
+            }
         }
 
         function deleteUser(id) {

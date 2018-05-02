@@ -39,6 +39,21 @@
     <main role="main" class="container">
         <a href="create-spot.html" class="btn btn-success float-right"><i class="fas fa-map-marker-alt"></i> Create Spot</a>
         <h1 class="display-4">Spots</h1>
+        <div class="float-right">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchQuery" placeholder="Search Query">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Search
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" onclick="search('name')">Name</a>
+                        <a class="dropdown-item" href="#" onclick="search('description')">Description</a>
+                        <a class="dropdown-item" href="#" onclick="search('city')">City</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <p class="lead">Manage spots by creating, reading, updating or deleting their details.</p>
         <div id="spotDeleted" style="display: none" class="alert alert-success" role="alert">The spot has been successfully deleted.</div>
         <div id="noSpots" style="display: none" class="alert alert-info" role="alert">No spots were found. Make sure to create spots in order to view them here!</div>
@@ -68,8 +83,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script>
-        function main() {
-            var url = 'http://spotsonclick.eu-4.evennode.com/api/spots';
+        function main(url) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onload = function () {
@@ -98,6 +112,25 @@
                 }
             }
             xhr.send(null);
+        }
+        
+        function main() {
+            main('http://spotsonclick.eu-4.evennode.com/api/spots');
+        }
+
+        function search(by) {
+            var searchQuery = document.getElementById('searchQuery').value;
+
+            switch (by) {
+                case 'city':
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/spots?key=city&value=' + searchQuery);
+                    break;
+                case 'description':
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/spots?key=description&value=' + searchQuery);
+                    break;
+                default:
+                    main('http://spotsonclick.eu-4.evennode.com/api/search/spots?key=name&value=' + searchQuery);
+            }
         }
 
         function deleteSpot(id) {
