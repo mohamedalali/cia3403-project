@@ -104,7 +104,7 @@ router.route('/search/users')
             res.status(400).json({message: 'Please provide a value to search for a user based on provided key.'});
         } else {
             let query = {};
-            query[key] = value;
+            query[key] = new RegExp(value, 'i');
             User.find(query, function(err, users) {
                 if (err) res.status(500).send(err);
 
@@ -183,7 +183,7 @@ router.route('/search/spots')
             res.status(400).json({message: 'Please provide a value to search for a spot based on provided key.'});
         } else {
             let query = {};
-            query[key] = value;
+            query[key] = new RegExp(value, 'i');
             Spot.find(query, function(err, spots) {
                 if (err) res.status(500).send(err);
 
