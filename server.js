@@ -93,7 +93,7 @@ router.route('/users/:id')
         });
     });
 
-router.route('/users/search')
+router.route('/search/users')
     .get(function(req, res) {
         let key = req.query.key;
         let value = req.query.value;
