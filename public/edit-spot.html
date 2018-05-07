@@ -179,78 +179,47 @@
         }
 
         function editSpot() {
-            var username = document.getElementById('username').value;
-            var displayName = document.getElementById('displayName').value;
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
+            var name = document.getElementById('name').value;
+            var image_url = document.getElementById('image_url').value;
+            var description = document.getElementById('description').value;
+            var city = document.getElementById('city').value;
+            var lat = document.getElementById('lat').value;
+            var lng = document.getElementById('lng').value;
 
-            if (displayName == null || displayName == "" ||
-                username == null || username == "" ||
-                email == null || email == "") {
+            if (name == null || name == "" ||
+                image_url == null || image_url == "" ||
+                description == null || description == "" ||
+                city == null || city == "" ||
+                lat == null || lat == "" ||
+                lng == null || lng == "") {
                 alert('All fields are required. Please fill the fields and try again.');
                 return false;
             } else {
-                var url = 'http://spotsonclick.eu-4.evennode.com/api/users';
+                var url = 'http://spotsonclick.eu-4.evennode.com/api/spots/' + id;
                 
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
+                var data = {};
+                data.name = name;
+                data.image_url = image_url;
+                data.city = city;
+                data.location = [lat, lng];
+                
+                var json = JSON.stringify(data);
+                
+                xhr = new XMLHttpRequest();
+                xhr.open('PATCH', url, true);
+                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
                 xhr.onload = function () {
                     if (xhr.readyState == 4 && xhr.status == "200") {
-                        var users = JSON.parse(xhr.responseText);
-
-                        var usernameExists = false;
-                        var emailExists = false;
-
-                        for (let user of users) {
-                            if (user.username == username && user._id != id)
-                                usernameExists = true;
-                            else if (user.email == email && user._id != id)
-                                emailExists = true;
-                        }
-
-                        if (usernameExists) {
-                            document.getElementById('error').innerHTML = 'This username already exists in the system. Please try again with another username.';
-                            document.getElementById('error').style.display = 'block';
-
-                            return false;
-                        } else if (emailExists) {
-                            document.getElementById('error').innerHTML = 'This email already exists in the system. Please try again with another email address.';
-                            document.getElementById('error').style.display = 'block';
-
-                            return false;
-                        // else if (!usernameExists || !emailExists) {
-                        //     document.getElementById('error').style.display = 'none';
-                        } else {
-                            url = 'http://spotsonclick.eu-4.evennode.com/api/users/' + id;
-
-                            var data = {};
-                            data.username = username;
-                            data.display_name = displayName;
-                            data.email = email;
-
-                            if (!(password == null || password == ""))
-                                data.password = password;
-                            
-                            var json = JSON.stringify(data);
-                            
-                            xhr = new XMLHttpRequest();
-                            xhr.open('PATCH', url, true);
-                            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-                            xhr.onload = function () {
-                                if (xhr.readyState == 4 && xhr.status == "200") {
-                                    document.getElementById('userUpdated').style.display = 'block';
-                                    document.getElementById('error').style.display = 'none';
-                                    return false;
-                                } else {
-                                    return false;
-                                }
-                            }
-                            xhr.send(json);
-
-                            return false;
-                        }
+                        document.getElementById('spotUpdated').style.display = 'block';
+                        document.getElementById('error').style.display = 'none';
+                        return false;
+                    } else {
+                        return false;
                     }
                 }
+                xhr.send(json);
+
+                return false;
             }
             xhr.send(null);
 

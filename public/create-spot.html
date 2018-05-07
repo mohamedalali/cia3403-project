@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Create User - SpotsOnClick</title>
+    <title>Create Spot - SpotsOnClick</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
@@ -37,27 +37,37 @@
     </header>
     
     <main role="main" class="container">
-        <h1 class="display-4">Create User</h1>
-        <p class="lead">Please enter the details of the new user below.</p>
+        <h1 class="display-4">Create Spot</h1>
+        <p class="lead">Please enter the details of the new spot below.</p>
         <div id="error" style="display: none" class="alert alert-danger" role="alert"></div>
-        <form onsubmit="return createUser()">
+        <form onsubmit="return createSpot()">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="jsmith" required>
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="The Dubai Mall" required>
             </div>
             <div class="form-group">
-                <label for="displayName">Display Name</label>
-                <input type="text" class="form-control" id="displayName" placeholder="John Smith" required>
+                <label for="image_url">Image URL</label>
+                <input type="text" class="form-control" id="image_url" placeholder="https://media-cdn.tripadvisor.com/media/photo-o/07/b9/0f/78/photo0jpg.jpg" required>
             </div>
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="jsmith@example.com" required>
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" placeholder="The Dubai Mall is a shopping mall in Dubai and the largest mall in the world by total area. It is the 21st largest shopping mall in the world by gross leasable area." required></textarea>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" placeholder="Dubai" required>
             </div>
-            <button type="submit" class="btn btn-success float-right"><i class="fas fa-user-plus"></i> Create User</button>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="location">Latitude</label>
+                    <input type="text" class="form-control" id="lat" placeholder="25.198518" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="location">Longitude</label>
+                    <input type="text" class="form-control" id="lng" placeholder="55.279619" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success float-right"><i class="fas fa-user-plus"></i> Create Spot</button>
         </form>
     </main>
 
@@ -72,65 +82,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script>
-        function createUser() {
-            var username = document.getElementById('username').value;
-            var displayName = document.getElementById('displayName').value;
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
+        function createSpot() {
+            var name = document.getElementById('name').value;
+            var image_url = document.getElementById('image_url').value;
+            var description = document.getElementById('description').value;
+            var city = document.getElementById('city').value;
+            var lat = document.getElementById('lat').value;
+            var lng = document.getElementById('lng').value;
 
-            if (displayName == null || displayName == "" ||
-                username == null || username == "" ||
-                email == null || email == "" ||
-                password == null || password == "") {
+            if (name == null || name == "" ||
+                image_url == null || image_url == "" ||
+                description == null || description == "" ||
+                city == null || city == "" ||
+                lat == null || lat == "" ||
+                lng == null || lng == "") {
                 alert('All fields are required. Please fill the fields and try again.');
                 return false;
             } else {
-                var url = 'http://spotsonclick.eu-4.evennode.com/api/users';
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.onload = function () {
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        var users = JSON.parse(xhr.responseText);
-
-                        for (let user of users) {
-                            if (user.username == username) {
-                                document.getElementById('error').innerHTML = 'This username already exists in the system. Please try again with another username.';
-                                document.getElementById('error').style.display = 'block';
-
-                                return false;
-                            } else if (user.email == email) {
-                                document.getElementById('error').innerHTML = 'This email already exists in the system. Please try again with another email address.';
-                                document.getElementById('error').style.display = 'block';
-
-                                return false;
-                            } else {
-                                var data = {};
-                                data.display_name = displayName;
-                                data.username = username;
-                                data.email = email;
-                                data.password = password;
-                                var json = JSON.stringify(data);
-                                
-                                xhr = new XMLHttpRequest();
-                                xhr.open('POST', url, true);
-                                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-                                xhr.onreadystatechange = function () {
-                                    if (xhr.readyState == 4 && xhr.status == "201") {
-                                        alert('User successfully created.');
-                                        window.location.href = 'users.html';
-                                        return false;
-                                    } else {
-                                        return false;
-                                    }
-                                }
-                                xhr.send(json);
-
-                                return false;
-                            }
-                        }
+                var url = 'http://spotsonclick.eu-4.evennode.com/api/spots';
+                
+                var data = {};
+                data.display_name = displayName;
+                data.username = username;
+                data.email = email;
+                data.password = password;
+                
+                var json = JSON.stringify(data);
+                
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == "201") {
+                        alert('Spot successfully created.');
+                        window.location.href = 'spots.html';
+                        return false;
+                    } else {
+                        return false;
                     }
                 }
-                xhr.send(null);
+                xhr.send(json);
 
                 return false;
             }
