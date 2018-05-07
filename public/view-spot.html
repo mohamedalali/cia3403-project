@@ -40,10 +40,11 @@
         <a href="spots.html" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Back to Spots</a>
         <h1 class="display-3" id="title"></h1>
         <p class="lead" id="description"></p>
-        <img src="" id="spotImage" alt="" style="max-width:100%; margin-bottom: 10px; border-radius: 5px">
+        <img src="" id="spotImage" alt="" style="width:100%; margin-bottom: 10px; border-radius: 5px">
         <div class="card">
             <h5 class="card-header">Location</h5>
             <div class="card-body text-center">
+                <div id="map" style="width: 100%; height: 500px;"></div><br>
                 <a href="" class="btn btn-secondary" target="_blank" id="viewLocation"><i class="fas fa-map"></i> View Location</a>
                 <a href="" class="btn btn-primary" target="_blank" id="getDirections"><i class="fas fa-location-arrow"></i> Get Directions</a>
             </div>
@@ -60,7 +61,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=displayMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMXthLoij4eg4Tm-UrdwN-kvZREtNyDU0&callback=displayMap"></script>
     <script>
         // https://www.sitepoint.com/get-url-parameters-with-javascript/
         function getAllUrlParams(url) {
@@ -145,6 +146,8 @@
                         document.getElementById('description').innerHTML = spot.description;
                         document.getElementById('viewLocation').href = 'https://www.google.com/maps/search/?api=1&query=' + spot.location[0] + ',' + spot.location[1];
                         document.getElementById('getDirections').href = 'https://www.google.com/maps/dir/?api=1&destination=' + spot.location[0] + ',' + spot.location[1];
+                        
+                        displayMap(spot.location[0], spot.location[1]);
 
                         document.getElementById('main').style.display = 'block';
                     } else {
@@ -157,13 +160,19 @@
             }
         }
 
-        function displayMap() {
+        function displayMap(lat, lng) {
             var mapOptions = {
-                center: new google.maps.LatLng(51.5, -0.12),
-        zoom: 10,
-        mapTypeId: google.maps.MapTypeId.HYBRID
-    }
-var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            };
+            
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(lat, lng),
+              map: map
+            });
         }
     </script>
 </body>
