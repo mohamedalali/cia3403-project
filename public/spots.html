@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
 </head>
-<body onload="main()">
+<body onload="main('')">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <div class="container">
@@ -47,9 +47,9 @@
                         Search
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" onclick="search('name')">Name</a>
-                        <a class="dropdown-item" href="#" onclick="search('description')">Description</a>
-                        <a class="dropdown-item" href="#" onclick="search('city')">City</a>
+                        <a class="dropdown-item" href="#" onclick="searchSpots('name')">Name</a>
+                        <a class="dropdown-item" href="#" onclick="searchSpots('description')">Description</a>
+                        <a class="dropdown-item" href="#" onclick="searchSpots('city')">City</a>
                     </div>
                 </div>
             </div>
@@ -84,6 +84,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script>
         function main(url) {
+            if (url == '' || url == null) {
+                url = 'http://spotsonclick.eu-4.evennode.com/api/spots';
+            }
+
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onload = function () {
@@ -113,12 +117,8 @@
             }
             xhr.send(null);
         }
-        
-        function main() {
-            main('http://spotsonclick.eu-4.evennode.com/api/spots');
-        }
 
-        function search(by) {
+        function searchSpots(by) {
             var searchQuery = document.getElementById('searchQuery').value;
 
             switch (by) {

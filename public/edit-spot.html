@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Edit User - SpotsOnClick</title>
+    <title>Edit Spot - SpotsOnClick</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
@@ -37,29 +37,38 @@
     </header>
     
     <main role="main" class="container" id="main" style="display: none">
-        <h1 class="display-4">Edit User</h1>
-        <p class="lead">Please update the details of the user below.</p>
-        <div id="userUpdated" style="display: none" class="alert alert-success" role="alert">The user has been successfully updated. Go back to <a href="users.html">view all users</a>.</div>
+        <h1 class="display-4">Edit Spot</h1>
+        <p class="lead">Please update the details of the spot below.</p>
+        <div id="spotUpdated" style="display: none" class="alert alert-success" role="alert">The spot has been successfully updated. Go back to <a href="spots.html">view all spots</a>.</div>
         <div id="error" style="display: none" class="alert alert-danger" role="alert"></div>
-        <form onsubmit="return editUser()">
+        <form onsubmit="return editSpot()">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="jsmith" required>
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="The Dubai Mall" required>
             </div>
             <div class="form-group">
-                <label for="displayName">Display Name</label>
-                <input type="text" class="form-control" id="displayName" placeholder="John Smith" required>
+                <label for="image_url">Image URL</label>
+                <input type="text" class="form-control" id="image_url" placeholder="https://media-cdn.tripadvisor.com/media/photo-o/07/b9/0f/78/photo0jpg.jpg" required>
             </div>
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="jsmith@example.com" required>
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" placeholder="The Dubai Mall is a shopping mall in Dubai and the largest mall in the world by total area. It is the 21st largest shopping mall in the world by gross leasable area." required></textarea>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="••••••••">
-                <small id="passwordHelp" class="form-text text-muted">This field is not required. Fill this field if a password change is required.</small>
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" placeholder="Dubai" required>
             </div>
-            <button type="submit" class="btn btn-info float-right"><i class="far fa-edit"></i> Edit User</button>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="location">Latitude</label>
+                    <input type="text" class="form-control" id="lat" placeholder="25.198518" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="location">Longitude</label>
+                    <input type="text" class="form-control" id="lng" placeholder="55.279619" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info float-right"><i class="far fa-edit"></i> Edit Spot</button>
         </form>
     </main>
 
@@ -141,24 +150,27 @@
 
         function main() {
             if (id == null || id == '') {
-                alert('An error occurred while fetching user details. Please try again later.');
-                window.location.href = 'users.html';
+                alert('An error occurred while fetching spot details. Please try again later.');
+                window.location.href = 'spots.html';
                 return;
             } else {
-                var url = 'http://spotsonclick.eu-4.evennode.com/api/users/' + id;
+                var url = 'http://spotsonclick.eu-4.evennode.com/api/spots/' + id;
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
                 xhr.onload = function () {
                     if (xhr.readyState == 4 && xhr.status == "200") {
-                        var user = JSON.parse(xhr.responseText);
-                        document.getElementById('username').value = user.username;
-                        document.getElementById('displayName').value = user.display_name;
-                        document.getElementById('email').value = user.email;
+                        var spot = JSON.parse(xhr.responseText);
+                        document.getElementById('name').value = spot.name;
+                        document.getElementById('image_url').value = spot.image_url;
+                        document.getElementById('description').value = spot.description;
+                        document.getElementById('city').value = spot.city;
+                        document.getElementById('lat').value = spot.location[0];
+                        document.getElementById('lng').value = spot.location[1];
 
                         document.getElementById('main').style.display = 'block';
                     } else {
-                        alert('An error occurred while fetching user details. Please try again later.');
-                        window.location.href = 'users.html';
+                        alert('An error occurred while fetching spot details. Please try again later.');
+                        window.location.href = 'spots.html';
                         return;
                     }
                 }
@@ -166,7 +178,7 @@
             }
         }
 
-        function editUser() {
+        function editSpot() {
             var username = document.getElementById('username').value;
             var displayName = document.getElementById('displayName').value;
             var email = document.getElementById('email').value;
