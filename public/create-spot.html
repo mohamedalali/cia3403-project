@@ -102,10 +102,10 @@
                 var url = 'http://spotsonclick.eu-4.evennode.com/api/spots';
                 
                 var data = {};
-                data.display_name = displayName;
-                data.username = username;
-                data.email = email;
-                data.password = password;
+                data.name = name;
+                data.image_url = image_url;
+                data.city = city;
+                data.location = [lat, lng];
                 
                 var json = JSON.stringify(data);
                 
