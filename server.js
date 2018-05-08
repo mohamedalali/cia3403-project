@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/', express.static('public'))
+app.use('/', express.static('public'));
 
 const port = process.env.PORT || 3000;
 
